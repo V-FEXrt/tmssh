@@ -1,16 +1,24 @@
 #!/usr/bin/env python
 
 import sys
-from os import path
-from os import mkdir
+import os
 from subprocess import call
 
 version_string = '0.0.5'
-tmssh_root = path.expanduser("~") + '/.tmssh/'
+tmssh_root = os.path.expanduser("~") + '/.tmssh/'
 saved_ssh = tmssh_root + 'saved_ssh'
 
-if not path.isdir(tmssh_root):
-    mkdir(tmssh_root)
+if not os.path.isdir(tmssh_root):
+    os.mkdir(tmssh_root)
+
+def replaceSavedSSH(map):
+    os.remove(saved_ssh)
+    text = ''
+
+    for name, server in map.iteritems():
+        text += name +',' + server + '\n'
+
+    writeToSavedSHH(text)
 
 def writeToSavedSHH(text):
     with open(saved_ssh, 'a') as fo:
@@ -73,12 +81,16 @@ def run(args):
         param = map[args[1]]
         call(["ssh", param])
     except:
-    	print 'Invalid name or command: \'' + args[1] +'\'.'
+        print 'Invalid name or command: \'' + args[1] +'\'.'
 
 def remove(args):
     name = args[2]
-    print 'Remove ' + name
-    print 'To be implemented'
+    map = readFromSavedSSH()
+    try:
+        map.pop(name)
+        replaceSavedSSH(map)
+    except:
+        print 'The name \'' + name + '\' doesn\'t exist'
 
 commandToFunction = {
     'version': version,
