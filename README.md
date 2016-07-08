@@ -1,5 +1,5 @@
-# tmssh - To Many SSH
-A script for keeping track of all your remote ssh servers. I personally have to ssh into WAY to many remote servers, and this script eases that process.
+# tmssh - Too Many SSH
+A script for keeping track of all your remote ssh servers. I personally have to ssh into WAY too many remote servers, and this script eases that process.
 
 ## Install
 ```bash
